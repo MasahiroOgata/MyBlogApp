@@ -1,0 +1,16 @@
+{% extends './base.html' %}
+{% block content %}
+    <h1>投稿記事一覧</h1>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>タイトル</th>
+            <th>ユーザー</th>
+        </tr>
+        {% for article in object_list %}
+        <tr>
+            <td><a href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a></td>
+            <td><a href="{% url 'diary:user_index' article.author.username %}">{{ article.author.diary_title }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

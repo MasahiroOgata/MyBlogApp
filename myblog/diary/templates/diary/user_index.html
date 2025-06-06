@@ -1,0 +1,9 @@
+{% extends './base.html' %}
+{% block content %}
+    <h1>{{ diary_title }}</h1>
+    <p>{{ username }}投稿記事一覧</p>
+
+    {% for article in object_list %}
+        <p> {{ article.title }}, {{ article.author.username }}</p>
+    {% endfor %}
+{% endblock %}
