@@ -5,7 +5,8 @@
 <p>{{ article.content }}</p>
 
 <div>
-    <a href='JavaScript:history.back()'>&lt; 戻る</a>
+    <a href='{% url "diary:user_index" article.author.username %}'>一覧</a>
+    <a href='{% url "diary:update" article.author.username article.id %}'>編集</a>
 </div>
 
 {% endblock %}
