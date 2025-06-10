@@ -1,15 +1,14 @@
 {% extends './base.html' %}
 {% block content %}
-    <h1>{{ diary_owner.diary_title }}</h1>
+<div style='max-width: 700px;'>
     <p>{{ diary_owner.username }}投稿記事一覧</p>
 
     {% for article in object_list %}
         <p>
-            <a href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a>
-            {{ article.created_at }}
+            {{ article.created_at|date:'Y年n月j日' }}
+            <a href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a> 
         </p>
+        <p>{{ article.content | linebreaksbr }}</p>
     {% endfor %}
-    <div>
-        <a href="{% url 'diary:create' diary_owner.username %}">新規投稿</a>
-    </div>
+</div>
 {% endblock %}

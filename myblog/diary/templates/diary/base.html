@@ -6,34 +6,49 @@
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        body {
-            padding-top: 80px;
-        }
-    </style>
+    <style>body {padding-top: 50px;}</style>
     <title>MyBlogApp</title>
 </head>
 
 <body>
     <nav class='navbar navbar-expand-sm navbar-dark bg-dark fixed-top'>
-        {% if diary_owner %}
-        <a class='navbar-brand' href='{% url "diary:user_index" diary_owner.username %}'>{{ diary_owner.diary_title }}</a>
-        {% else %}
         <a class='navbar-brand' href='{% url "diary:index" %}'>MyBlogApp</a>
-        {% endif %}
     </nav>
+    {% if diary_owner %}
+    <div class='text-center py-4 bg-light'>
+        <div class='d-inline'>
+            <a class='h1 text-center' href='{% url "diary:user_index" diary_owner.username %}'>{{ diary_owner.diary_title }}</a>
+
+
+        </div>
+        <div class='d-inline'>
+            <a class='btn btn-primary' href="{% url 'diary:create' diary_owner.username %}">新規投稿</a>
+
+        </div>
+    </div>
+
+    {% endif %}
     <div class='row'>
-        <div class='col-sm-10'>
-            <div class='container'>
+        <div class='col-md-10 p-3'>
+            <div class='container row justify-content-center'>
                 {% block content %}
                 {% endblock %}
             </div>
         </div>
-        <div class='col-sm-2'>
+        <div class='col-md-2 p-3 bg-light'> <!-- style="height: calc(100vh - 50px);" --> 
             {% if diary_owner %}
-            <a href='{% url "diary:user_index" diary_owner.username %}'>ブログトップ</a><br>
+            <a class='h3' href='{% url "diary:user_index" diary_owner.username %}'>ブログトップ</a><br>
+                {% if object_list %}
+                <h4 class='pt-2'>新着記事</h4>
+                    {% for article in object_list %}
+                    <p>
+                        <a href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a>
+                    </p>
+                    <p class='text-truncate'>{{ article.content }}</p>
+                    {% endfor %}
+                {% endif %}
             {% endif %}
-            <a href='{% url "diary:index" %}'>トップページ</a>           
+            <a class='h3' href='{% url "diary:index" %}'>MyBlogApp</a>
         </div>
     </div>
 
