@@ -1,14 +1,14 @@
 {% extends './base.html' %}
 {% block content %}
-<div style='max-width: 700px;'>
+<div style='width: 700px;'>
     <p>{{ diary_owner.username }}投稿記事一覧</p>
 
     {% for article in object_list %}
-        <p>
-            {{ article.created_at|date:'Y年n月j日' }}
-            <a href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a> 
-        </p>
-        <p>{{ article.content | linebreaksbr }}</p>
+        <div class='d-flex justify-content-between align-items-end mb-3' style='border-bottom: thin solid;'>
+            <a class='h3' style='text-decoration-line: none;' href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a>
+            <span class='text-end'>{{ article.created_at|date:'Y年n月j日' }}</span>
+        </div>        
+        <p class='mb-5'>{{ article.content | linebreaksbr }}</p>
     {% endfor %}
 </div>
 {% endblock %}

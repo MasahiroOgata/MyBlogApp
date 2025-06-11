@@ -1,13 +1,17 @@
 {% extends './base.html' %}
 {% block content %}
-<h1>{{ article.title }}</h1>
-<p>{{ article.created_at }}</p>
-<p>{{ article.content | linebreaksbr }}</p>
+<div style='max-width: 700px;'>
+    <div style='border-bottom: thin solid;'>
+        <h2>{{ article.title }}</h2>
+    </div>    
+    <p class='fw-light'>{{ article.created_at }}</p>
+    <p>{{ article.content | linebreaksbr }}</p>
 
-<div>
-    <a href='{% url "diary:user_index" article.author.username %}'>一覧</a>
-    <a href='{% url "diary:update" article.author.username article.id %}'>編集</a>
-    <a href='{% url "diary:delete" article.author.username article.id %}'>削除</a>
+    <div>
+        <a href='{% url "diary:user_index" article.author.username %}'>一覧</a>
+        <a href='{% url "diary:update" article.author.username article.id %}'>編集</a>
+        <a href='{% url "diary:delete" article.author.username article.id %}'>削除</a>
+    </div>
 </div>
 
 {% endblock %}
