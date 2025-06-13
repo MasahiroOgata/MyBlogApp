@@ -8,19 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>body {padding-top: 50px;}</style>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     {% block extrahead %}{% endblock %}
-    <!--<link rel="stylesheet" href="{% static 'css/diary/article_list.css' %}">-->
     <title>MyBlogApp</title>
 </head>
 
 <body>
     <nav class='navbar navbar-expand-sm navbar-dark bg-dark fixed-top'>
-        <a class='navbar-brand' href='{% url "diary:index" %}'>MyBlogApp</a>
+        <a id='app-top' class='navbar-brand ms-3' href='{% url "diary:index" %}'>MyBlogApp</a>
 
             <ul class='navbar-nav flex-row'>
                 {% if user.is_authenticated %}
                 <li class='nav-item'>
-                    <span class='navbar-brand'>{{ user }} - </span>
+                    <a href='{% url "diary:user_index" user %}' class='btn btn-link navbar-brand' >{{ user }}</a>
                 </li>
                 <li class='nav-item'>
                     <form method='post' action='{% url "logout" %}'>
@@ -33,7 +33,7 @@
                     <a href='{% url "login" %}' class='login navbar-brand'>Login</a>
                 </li>
                 <li class="nav-item ms-1">
-                    <a href='#' class='signup navbar-brand'> Sign up </a>
+                    <a href='{% url "user:signup" %}' class='signup navbar-brand'> Sign up </a>
                 </li>
                 {% endif %}
             </ul>
@@ -43,12 +43,6 @@
         <div class='d-inline'>
             <a class='h1 text-center' href='{% url "diary:user_index" diary_owner.username %}' style='text-decoration-line: none;'>{{ diary_owner.diary_title }}</a>
         </div>
-
-        {% if request.user.id == diary_owner.id %}
-        <div class='d-inline'>
-            <a class='btn btn-primary' href="{% url 'diary:create' diary_owner.username %}">新規投稿</a>
-        </div>
-        {% endif %}
     </div>
     {% endif %}
     <div class='row'>
@@ -58,12 +52,18 @@
                 {% endblock %}
             </div>
         </div>
-        <div class='col-md-2 p-3 bg-light'> <!-- style="height: calc(100vh - 50px);" --> 
+        <div class='col-md-2 p-3 bg-light'>
             {% if diary_owner %}
+                {% if request.user.id == diary_owner.id %}
+                <div class='d-inline'>
+                    <a class='btn btn-primary' href="{% url 'diary:create' diary_owner.username %}">新規投稿</a>
+                </div>
+                <br>
+                {% endif %}
             <a class='h3' href='{% url "diary:user_index" diary_owner.username %}' style='text-decoration-line: none;'>ブログトップ</a><br>
-                {% if object_list %}
+                {% if diary_list %}
                 <h5 class='pt-2'>新着記事</h5>
-                    {% for article in object_list %}
+                    {% for article in diary_list %}
                         <a href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a>
                         <p class='text-truncate mb-2'>{{ article.content }}</p>
                     {% endfor %}

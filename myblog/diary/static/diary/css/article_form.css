@@ -1,0 +1,11 @@
+label {
+    display: block;
+}
+
+#diary-form {
+    width: 720px;
+}
+
+input, textarea {
+    width: 100%;
+}

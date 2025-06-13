@@ -1,6 +1,6 @@
-{% extends './base.html' %}
+{% extends 'layout.html' %}
 {% block content %}
-<div style='max-width: 700px;'>
+<div style='width: 720px;'>
     <div style='border-bottom: thin solid;'>
         <h2>{{ article.title }}</h2>
     </div>    
@@ -8,9 +8,11 @@
     <p>{{ article.content | linebreaksbr }}</p>
 
     <div>
-        <a href='{% url "diary:user_index" article.author.username %}'>一覧</a>
-        <a href='{% url "diary:update" article.author.username article.id %}'>編集</a>
-        <a href='{% url "diary:delete" article.author.username article.id %}'>削除</a>
+        <a class='btn btn-primary' href='{% url "diary:user_index" article.author.username %}'>一覧</a>
+        {% if request.user.id == diary_owner.id %}
+        <a class='btn btn-primary' href='{% url "diary:update" article.author.username article.id %}'>編集</a>
+        <a class='btn btn-danger' href='{% url "diary:delete" article.author.username article.id %}'>削除</a>
+        {% endif %}
     </div>
 </div>
 

@@ -1,6 +1,6 @@
-{% extends './base.html' %}
+{% extends 'layout.html' %}
 {% block content %}
-<div style='width: 700px;'>
+<div style='width: 720px;'>
     <p>{{ diary_owner.username }}投稿記事一覧</p>
 
     {% for article in object_list %}
