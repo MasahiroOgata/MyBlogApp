@@ -13,7 +13,7 @@ class DiaryOwnerMixin(generic.base.ContextMixin):
             context['diary_owner'] = diary_owner
             articles = Article.objects.filter(author__username=username).order_by('-created_at')
             context['diary_list'] = articles[:5]
-            context['object_list'] = articles
+            #context['object_list'] = articles
         except CustomUser.DoesNotExist:
             context['diary_owner'] = None
         return context
@@ -38,14 +38,19 @@ class IndexView(generic.ListView):
 
 class UserIndexView(DiaryOwnerMixin, generic.ListView):
     model = Article
-    template_name = 'diary/user_index.html' 
+    template_name = 'diary/user_index.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        username = self.kwargs.get('username')
+        return self.model.objects.filter(author__username=username).order_by('-created_at')
         
 class DetailView(DiaryOwnerMixin, CollateAuthorAndPkMixin, generic.DetailView):
     pass
 
 class CreateView(DiaryOwnerMixin, CollateLoginUserMixin, generic.edit.CreateView):
     model = Article
-    fields = ['title', 'content'] #'__all__'
+    fields = ['title', 'content'] 
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -53,7 +58,7 @@ class CreateView(DiaryOwnerMixin, CollateLoginUserMixin, generic.edit.CreateView
 
 class UpdateView(DiaryOwnerMixin, CollateAuthorAndPkMixin,
                 CollateLoginUserMixin, generic.edit.UpdateView):
-    fields = ['title', 'content'] #'__all__'
+    fields = ['title', 'content'] 
 
 class DeleteView(DiaryOwnerMixin, CollateAuthorAndPkMixin, 
                 CollateLoginUserMixin, generic.edit.DeleteView):
