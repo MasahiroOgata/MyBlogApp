@@ -1,3 +1,19 @@
+.navbar {
+    height: 50px;
+}
+
+body {
+    padding-top: 50px;
+}
+
 #app-top {
     color: #f8f9fa;
 }
+
+.container > div {
+    margin: 0 auto;
+}
+
+/* .sidebar {
+    min-height: calc(100vh - 50px);
+} */

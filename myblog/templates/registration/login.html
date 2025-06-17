@@ -1,26 +1,33 @@
 {% extends '../layout.html' %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static '/css/registration/login.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Login</h1>
-<section class='common-form'>
-    {% if form.errors %}
+<div class='login-form'>
+    <h1>ログイン</h1>
+    <section class='common-form'>
+        {% if form.errors %}
         <p class='error-msg'>Your username and password didn't match. Please try again.</p>
-    {% endif %}
+        {% endif %}
 
-    {% if next %}
+        {% if next %}
         {% if user.is_authenticated %}
-            <p class='error-msg'>Your account doesn't have access to this page. To proceed,
+        <p class='error-msg'>Your account doesn't have access to this page. To proceed,
             please login with an account that has access.</p>
         {% else %}
-            <p class='error-msg'>Please login to see this page.</p>
+        <p class='error-msg'>Please login to see this page.</p>
         {% endif %}
-    {% endif %}
+        {% endif %}
 
-    <form action='{% url "login" %}' method='post'>
-        {% csrf_token %}
-        <input type='hidden' name='next' value='{{ next }}'/>
-        {{ form.as_p }}
-        <button type='submit'>Login</button>
-    </form>
-</section>
+        <form action='{% url "login" %}' method='post'>
+            {% csrf_token %}
+            <input type='hidden' name='next' value='{{ next }}' />
+            {{ form.as_p }}
+            <button class='btn btn-primary' type='submit'>ログイン</button>
+        </form>
+    </section>
+</div>
 {% endblock %}
