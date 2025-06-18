@@ -15,3 +15,7 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         username = self.request.user.username
         return f'/diary/{username}/'
+    
+class UserDetailView(generic.TemplateView):
+    model = CustomUser
+    template_name = 'user/detail.html'

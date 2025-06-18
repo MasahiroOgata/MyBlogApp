@@ -19,7 +19,7 @@
         <ul class='navbar-nav flex-row'>
             {% if user.is_authenticated %}
             <li class='nav-item'>
-                <a href='{% url "diary:user_index" user %}' class='btn btn-link navbar-brand'>{{ user }}</a>
+                <a href='{% url "user:detail" user.username %}' class='btn btn-link navbar-brand'>{{ user }}</a>
             </li>
             <li class='nav-item'>
                 <form method='post' action='{% url "logout" %}'>
@@ -38,7 +38,7 @@
         </ul>
     </nav>
     {% if diary_owner %}
-    <div class='text-center py-4 bg-info'>
+    <div class='text-center py-4 bg-light'>
         <div class='d-inline'>
             <a class='h1 text-center' href='{% url "diary:user_index" diary_owner.username %}'
                 style='text-decoration-line: none;'>{{ diary_owner.diary_title }}</a>
@@ -50,7 +50,7 @@
             {% block content %}
             {% endblock %}
         </div>
-        <div class='col-md-2 bg-info p-3 sidebar'>
+        <div class='col-md-2 bg-light p-3 sidebar'>
             {% if diary_owner %}
                 {% if request.user.id == diary_owner.id %}
                 <div class='d-inline'>
@@ -61,6 +61,7 @@
                 <a class='h3' href='{% url "diary:user_index" diary_owner.username %}'
                     style='text-decoration-line: none;'>ブログトップ</a><br>
                 {% if diary_list %}
+                <a href='{% url "diary:entrylist" diary_owner.username %}'>{{ diary_owner.username }}投稿記事一覧</a>
                 <h5 class='pt-2'>新着記事</h5>
                     {% for article in diary_list %}
                     <a href="{% url 'diary:detail' article.author.username article.id %}">{{ article.title }}</a>

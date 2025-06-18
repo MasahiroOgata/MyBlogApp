@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from .models import Article
 from user.models import CustomUser
 from django.core.exceptions import PermissionDenied
+# from django.core.paginator import Paginator
 
 class DiaryOwnerMixin(generic.base.ContextMixin):
     def get_context_data(self, **kwargs):
@@ -40,6 +41,14 @@ class UserIndexView(DiaryOwnerMixin, generic.ListView):
     model = Article
     template_name = 'diary/user_index.html'
     paginate_by = 5
+
+    def get_queryset(self):
+        username = self.kwargs.get('username')
+        return self.model.objects.filter(author__username=username).order_by('-created_at')
+    
+class EntryListView(DiaryOwnerMixin, generic.ListView):
+    model = Article
+    template_name = 'diary/entry_list.html'
 
     def get_queryset(self):
         username = self.kwargs.get('username')
