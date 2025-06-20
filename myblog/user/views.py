@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views import generic
@@ -16,6 +16,11 @@ class CustomLoginView(LoginView):
         username = self.request.user.username
         return f'/diary/{username}/'
     
-class UserDetailView(generic.TemplateView):
+class UserUpdateView(generic.UpdateView):
+    template_name = 'user/update.html'
     model = CustomUser
-    template_name = 'user/detail.html'
+    fields = ['username', 'diary_title']
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        return get_object_or_404(CustomUser, username=username)

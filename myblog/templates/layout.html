@@ -19,7 +19,7 @@
         <ul class='navbar-nav flex-row'>
             {% if user.is_authenticated %}
             <li class='nav-item'>
-                <a href='{% url "user:detail" user.username %}' class='btn btn-link navbar-brand'>{{ user }}</a>
+                <a href='{% url "user:update" user.username %}' class='btn btn-link navbar-brand'>{{ user }}</a>
             </li>
             <li class='nav-item'>
                 <form method='post' action='{% url "logout" %}'>

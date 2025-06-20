@@ -14,7 +14,7 @@ class DiaryOwnerMixin(generic.base.ContextMixin):
             context['diary_owner'] = diary_owner
             articles = Article.objects.filter(author__username=username).order_by('-created_at')
             context['diary_list'] = articles[:5]
-            #context['object_list'] = articles
+            context['diary_list_all'] = articles
         except CustomUser.DoesNotExist:
             context['diary_owner'] = None
         return context
@@ -55,7 +55,27 @@ class EntryListView(DiaryOwnerMixin, generic.ListView):
         return self.model.objects.filter(author__username=username).order_by('-created_at')
         
 class DetailView(DiaryOwnerMixin, CollateAuthorAndPkMixin, generic.DetailView):
-    pass
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        article_list = list(context.get('diary_list_all', []))
+        current_article = self.object
+
+        prev_article = None
+        next_article = None
+
+        for i, article in enumerate(article_list):
+            if article.pk == current_article.pk:
+                if i > 0:
+                    next_article = article_list[i - 1]
+                if i < len(article_list) - 1:
+                    prev_article = article_list[i + 1]
+                break
+
+        context['prev_article'] = prev_article
+        context['next_article'] = next_article
+
+        return context
 
 class CreateView(DiaryOwnerMixin, CollateLoginUserMixin, generic.edit.CreateView):
     model = Article

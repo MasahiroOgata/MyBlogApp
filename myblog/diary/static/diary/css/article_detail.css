@@ -1,0 +1,4 @@
+#article_title, #article_content {
+    padding-bottom: 0.5rem;
+    border-bottom: thin solid;
+}
