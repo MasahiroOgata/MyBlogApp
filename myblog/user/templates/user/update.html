@@ -1,6 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h1>user detail</h1>
-{{ form.as_p }}
+<div>
+    <h1>ユーザー情報</h1>
+    <form method="post" class="p-4 m-4 bg-light border border-success rounded form-group"
+    style="width: 700px">
+        {% csrf_token %}
+        <label>ユーザー名</label>
+        <input class="form-control" value="{{ object.username }}" readonly disabled>
+        <label>ブログタイトル</label>
+        <input class="form-control" value="{{ object.diary_title }}" name="diary_title">
+        <button type='submit' class='btn btn-primary submit m-2'>更新する</button>
+    </form>
+</div>
 {% endblock %}
