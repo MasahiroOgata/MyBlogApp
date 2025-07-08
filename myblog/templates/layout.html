@@ -29,21 +29,27 @@
             </li>
             {% else %}
             <li class='nav-item'>
-                <a href='{% url "login" %}' class='login navbar-brand'>Login</a>
+                <a href='{% url "login" %}' class='login btn btn-link navbar-brand'>Login</a>
             </li>
             <li class="nav-item ms-1">
-                <a href='{% url "user:signup" %}' class='signup navbar-brand'> Sign up </a>
+                <a href='{% url "user:signup" %}' class='signup btn btn-link navbar-brand'> Sign up </a>
             </li>
             {% endif %}
         </ul>
     </nav>
     {% if diary_owner %}
-    <div class='text-center py-4 bg-light'>
-        <div class='d-inline'>
-            <a class='h1 text-center' href='{% url "diary:user_index" diary_owner.username %}'
-                style='text-decoration-line: none;'>{{ diary_owner.diary_title }}</a>
-        </div>
+    {% if diary_owner.header_image %}
+    <div class='d-flex align-items-center justify-content-center text-center py-4 bg-light top-banner' 
+        style="background-image: url('/media/{{ diary_owner.header_image }}')">
+        <a class='h1 text-center' href='{% url "diary:user_index" diary_owner.username %}'
+            style="text-decoration-line: none; color: {{ diary_owner.title_color|default:'#0000EE' }};">{{ diary_owner.diary_title }}</a>
     </div>
+    {% else %}
+    <div class='d-flex align-items-center justify-content-center text-center py-4 bg-light'>
+        <a class='h1 text-center' href='{% url "diary:user_index" diary_owner.username %}'
+            style="text-decoration-line: none; color: {{ diary_owner.title_color|default:'#0000EE' }};">{{ diary_owner.diary_title }}</a>
+    </div>
+    {% endif %}
     {% endif %}
     <div class='row g-0'>
         <div class='col-md-10 p-3 container d-flex'>

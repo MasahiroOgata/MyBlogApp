@@ -4,13 +4,20 @@
 <div>
     <h1>ユーザー情報</h1>
     <form method="post" class="p-4 m-4 bg-light border border-success rounded form-group"
-    style="width: 700px">
+    enctype="multipart/form-data" style="width: 700px">
         {% csrf_token %}
         <label>ユーザー名</label>
         <input class="form-control" value="{{ object.username }}" readonly disabled>
         <label>ブログタイトル</label>
         <input class="form-control" value="{{ object.diary_title }}" name="diary_title">
-        <button type='submit' class='btn btn-primary submit m-2'>更新する</button>
+        <label>タイトルのカラー</label>
+        <input class="form-control form-control-color" type="color" value="{{ object.title_color }}" name="title_color">
+        <label>ヘッダー画像</label>
+        {% if object.header_image %}
+        <p>現在:<a href="/media/{{ object.header_image }}">{{ object.header_image }}</a></p>
+        {% endif %}
+        <input type="file" class="form-control" name="header_image">
+        <button type='submit' class='btn btn-primary submit m-2'>更新する</button>        
     </form>
 </div>
 {% endblock %}

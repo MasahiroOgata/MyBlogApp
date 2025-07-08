@@ -20,7 +20,7 @@ class CustomLoginView(LoginView):
 class UserUpdateView(DiaryOwnerMixin, generic.edit.UpdateView):
     template_name = 'user/update.html'
     model = CustomUser
-    fields = ['diary_title']
+    fields = ['diary_title', 'header_image', 'title_color']
 
     def get_success_url(self):
         return reverse_lazy('diary:user_index', kwargs={'username': self.kwargs['username']})
