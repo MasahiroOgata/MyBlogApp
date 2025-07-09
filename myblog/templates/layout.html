@@ -40,7 +40,7 @@
     {% if diary_owner %}
     {% if diary_owner.header_image %}
     <div class='d-flex align-items-center justify-content-center text-center py-4 bg-light top-banner' 
-        style="background-image: url('/media/{{ diary_owner.header_image }}')">
+        style="background-image: url('{{ diary_owner.header_image.url }}')">
         <a class='h1 text-center' href='{% url "diary:user_index" diary_owner.username %}'
             style="text-decoration-line: none; color: {{ diary_owner.title_color|default:'#0000EE' }};">{{ diary_owner.diary_title }}</a>
     </div>
