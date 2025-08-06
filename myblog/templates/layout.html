@@ -68,13 +68,15 @@
         <div class='col-md-2 bg-light p-3 sidebar'>
             {% if diary_owner %}
                 {% if request.user.id == diary_owner.id %}
-                <div class='d-inline'>
-                    <a class='btn btn-primary' href="{% url 'diary:create' diary_owner.username %}">新規投稿</a>
+                <div class='d-block'>
+                    <a class='btn btn-primary mb-3' href="{% url 'diary:create' diary_owner.username %}">新規投稿</a>
                 </div>
-                <br>
+                
                 {% endif %}
+                <div class='d-block mb-2'>
                 <a class='h3' href='{% url "diary:user_index" diary_owner.username %}'
-                    style='text-decoration-line: none;'>ブログトップ</a><br>
+                    style='text-decoration-line: none;'>ブログトップ</a>
+                </div>
                 {% if diary_list %}
                 <a href='{% url "diary:entrylist" diary_owner.username %}'>{{ diary_owner.username }}投稿記事一覧</a>
                 <h5 class='pt-2'>新着記事</h5>
